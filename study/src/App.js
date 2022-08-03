@@ -1,5 +1,13 @@
+import Message from "./components/message/Message";
+
 function App() {
-  return <div> Hello React App</div>;
+  const displayMessage = "Hello React App";
+
+  return (
+    <div>
+      <Message message={displayMessage} />
+    </div>
+  );
 }
 
 export default App;
