@@ -1,9 +1,9 @@
 import { useState } from "react";
-import Message from "./components/message/Message";
+import MessagesList from "./components/messagesList/MessagesList";
 import Tasks from "./components/tasks/Tasks";
 
 function App() {
-  const displayMessage = "Hello React App";
+  const [currentUser] = useState("John");
   const [messageList] = useState([
     {
       id: 1,
@@ -19,10 +19,8 @@ function App() {
   return (
     <div>
       <Tasks />
-      <Message message={displayMessage} />
-      {messageList.map((item) => (
-        <Message key={item.id} message={item.message} />
-      ))}
+
+      <MessagesList messages={messageList} currentUser={currentUser}/>
     </div>
   );
 }
