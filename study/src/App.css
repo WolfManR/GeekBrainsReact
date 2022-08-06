@@ -11,3 +11,14 @@
   border-radius: 0.2rem;
   border: 1px solid black;
 }
+
+.chat-user {
+  margin-bottom: 1rem;
+}
+
+.form-message {
+  margin-top: 1rem;
+  display:flex;
+  flex-direction: column;
+  gap: .2rem;
+}

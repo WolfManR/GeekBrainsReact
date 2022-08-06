@@ -9,7 +9,7 @@ function MessagesList({ messages, currentUser }) {
           <Message
             key={item.id}
             author={item.author}
-            message={item.message}
+            message={item.body}
             style={{
               textAlign: item.author === currentUser ? 'left' : 'right',
             }}
