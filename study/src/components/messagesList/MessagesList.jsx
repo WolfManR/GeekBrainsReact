@@ -1,6 +1,5 @@
 import React from 'react'
 import Message from '../message/Message.jsx'
-import './MessagesList.css'
 
 function MessagesList({ messages, currentUser }) {
   return (
