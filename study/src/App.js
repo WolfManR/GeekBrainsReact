@@ -1,6 +1,7 @@
 import { useState } from "react";
 import MessagesList from "./components/messagesList/MessagesList";
 import Tasks from "./components/tasks/Tasks";
+import "./App.css";
 
 function App() {
   const [currentUser] = useState("John");
@@ -17,10 +18,18 @@ function App() {
     },
   ]);
   return (
-    <div>
+    <div className="App">
       <Tasks />
 
-      <MessagesList messages={messageList} currentUser={currentUser}/>
+      <div className="chat">
+        <MessagesList messages={messageList} currentUser={currentUser} />
+
+        <form>
+          <input type="text" placeholder="user" />
+          <input type="text" placeholder="message" />
+          <button type="submit">send</button>
+        </form>
+      </div>
     </div>
   );
 }
