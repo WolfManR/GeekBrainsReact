@@ -1,10 +1,11 @@
 import React from 'react'
 import './Message.css'
 
-function Message({ message }) {
+function Message({ message, author, ...styles }) {
   return (
-    <div className="Message">
-      <span>{message}</span>
+    <div {...styles} className="Message">
+      <span className="author">{author}</span>
+      <span className="message">{message}</span>
     </div>
   )
 }

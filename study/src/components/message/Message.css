@@ -1,5 +1,13 @@
 .Message {
-  text-align: center;
-  font-size: 3rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.author {
+  font-size: 1.2rem;
+  color: #e26f29;
+}
+
+.message {
   color: #2f4a5c;
 }
