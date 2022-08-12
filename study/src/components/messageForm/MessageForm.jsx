@@ -1,6 +1,9 @@
 import { useState, forwardRef } from 'react'
+import Box from '@mui/material/Box'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
 
-const MessageForm = forwardRef(({ onMessageSend }, ref) =>  {
+const MessageForm = forwardRef(({ onMessageSend }, ref) => {
   const [formMessage, setFormMessage] = useState({ author: '', body: '' })
 
   const sendMessage = (e) => {
@@ -11,29 +14,36 @@ const MessageForm = forwardRef(({ onMessageSend }, ref) =>  {
 
   return (
     <div>
-      <form className="form-message" onSubmit={sendMessage}>
-        <input
-          type="text"
-          placeholder="user"
+      <Box
+        component="form"
+        noValidate
+        autoComplete="off"
+        display="flex"
+        flexDirection="column"
+        onSubmit={sendMessage}
+      >
+        <TextField
+          id="user"
+          label="author"
           name="author"
-          ref={ref}
+          inputRef={ref}
           value={formMessage.author}
           onChange={(e) =>
             setFormMessage({ ...formMessage, author: e.target.value })
           }
         />
-        <input
-          type="text"
-          placeholder="message"
+        <TextField
+          id="message"
+          label="message"
           name="text"
-          ref={ref}
+          inputRef={ref}
           value={formMessage.body}
           onChange={(e) =>
             setFormMessage({ ...formMessage, body: e.target.value })
           }
         />
-        <button>send</button>
-      </form>
+        <Button type="submit">send</Button>
+      </Box>
     </div>
   )
 })
