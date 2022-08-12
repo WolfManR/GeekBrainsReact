@@ -1,7 +1,5 @@
 import { useState, forwardRef } from 'react'
-import Box from '@mui/material/Box'
-import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
+import { Stack, TextField, Button } from '@mui/material'
 
 const MessageForm = forwardRef(({ onMessageSend }, ref) => {
   const [formMessage, setFormMessage] = useState({ author: '', body: '' })
@@ -14,12 +12,10 @@ const MessageForm = forwardRef(({ onMessageSend }, ref) => {
 
   return (
     <div>
-      <Box
+      <Stack
         component="form"
         noValidate
         autoComplete="off"
-        display="flex"
-        flexDirection="column"
         onSubmit={sendMessage}
       >
         <TextField
@@ -37,13 +33,15 @@ const MessageForm = forwardRef(({ onMessageSend }, ref) => {
           label="message"
           name="text"
           inputRef={ref}
+          multiline
+          maxRows={6}
           value={formMessage.body}
           onChange={(e) =>
             setFormMessage({ ...formMessage, body: e.target.value })
           }
         />
         <Button type="submit">send</Button>
-      </Box>
+      </Stack>
     </div>
   )
 })

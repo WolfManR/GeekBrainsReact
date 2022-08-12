@@ -3,14 +3,29 @@ import MessagesList from "./components/messagesList/MessagesList";
 import Tasks from "./components/tasks/Tasks";
 import "./App.css";
 import MessageForm from "./components/messageForm/MessageForm";
-import { grey } from "@mui/material/colors";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 const botMessage = { author: "Bot", body: "" };
 const theme = createTheme({
-  pallete: {
-    primary: {
-      main: grey[200],
+  spacing: [0, 4, 8, 16],
+  components: {
+    MuiButton: {
+      defaultProps: {
+        size: "big",
+        variant: "contained",
+        margin: "dense",
+      },
+    },
+    MuiTextField: {
+      defaultProps: {
+        variant: "filled",
+        size: "small",
+      },
+    },
+    MuiStack: {
+      defaultProps: {
+        spacing: 1,
+      },
     },
   },
 });
