@@ -4,6 +4,8 @@ import Tasks from "./components/tasks/Tasks";
 import "./App.css";
 import MessageForm from "./components/messageForm/MessageForm";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import ChatsList from "./components/chatsList/ChatsList";
+import { TextField } from "@mui/material";
 
 const botMessage = { author: "Bot", body: "" };
 const theme = createTheme({
@@ -33,6 +35,23 @@ const theme = createTheme({
 function App() {
   const [currentUser, setCurrentUser] = useState("John");
   const [messageList, setMessageList] = useState([]);
+  const [chatsList, setChatsList] = useState([
+    {
+      id: 1,
+      header: "some header",
+      messages: [],
+    },
+    {
+      id: 2,
+      header: "some header2",
+      messages: [],
+    },
+    {
+      id: 3,
+      header: "some header3",
+      messages: [],
+    },
+  ]);
   const [idCounter, setIdCounter] = useState(0);
   const formRef = useRef(null);
 
@@ -70,14 +89,19 @@ function App() {
         <Tasks />
 
         <div className="chat">
-          <div className="chat-user">
-            <label>Current User: </label>
-            <input type="text" value={currentUser} onChange={(e) => setCurrentUser(e.target.value)} />
+          <div className="side">
+            <div className="chat-user">
+              <TextField type="text" label="Current User" value={currentUser} onChange={(e) => setCurrentUser(e.target.value)} />
+            </div>
+
+            <ChatsList chats={chatsList} />
           </div>
 
-          <MessagesList messages={messageList} currentUser={currentUser} />
+          <div className="chat-group">
+            <MessagesList messages={messageList} currentUser={currentUser} />
 
-          <MessageForm onMessageSend={addMessage} ref={formRef} />
+            <MessageForm onMessageSend={addMessage} ref={formRef} />
+          </div>
         </div>
       </div>
     </ThemeProvider>
