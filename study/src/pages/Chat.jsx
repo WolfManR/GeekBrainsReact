@@ -30,7 +30,7 @@ const Chat = () => {
   const [currentUser, setCurrentUser] = useState('John')
   const getCurrentChat = () => {
     let id = parseInt(chatId)
-    if (id === NaN) {
+    if (Number.isNaN(id)) {
       return []
     }
     let chat = chatsList.find((item) => item.id === id)
