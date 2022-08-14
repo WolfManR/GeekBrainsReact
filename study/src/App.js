@@ -40,6 +40,7 @@ function App() {
           <Route path={"/profile"} element={<Profile />} />
         </Route>
         <Route path={"/chat"} element={<Chat />} />
+        <Route path={"/chat/:chatId"} element={<Chat />} />
         <Route path={"*"} element={<NotFound />} />
       </Routes>
     </ThemeProvider>

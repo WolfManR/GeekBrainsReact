@@ -1,25 +1,25 @@
-import React from 'react'
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import CommentIcon from '@mui/icons-material/Comment';
-import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List'
+import { ListItemButton, ListItemText } from '@mui/material'
+import CommentIcon from '@mui/icons-material/Comment'
+import { useNavigate } from 'react-router-dom'
 
-const ChatsList = ({chats}) => {
+const ChatsList = ({ chats, chatId }) => {
+  const navigate = useNavigate()
+  const selectChat = (id) => {
+    if (!id) return
+    navigate(`/chat/${id}`)
+  }
   return (
     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-      {chats.map((chat) => (
-        <ListItem
+      {chats.map((chat, index) => (
+        <ListItemButton
           key={chat.id}
-          disableGutters
-          secondaryAction={
-            <IconButton aria-label="comment">
-              <CommentIcon />
-            </IconButton>
-          }
+          selected={chat.id === chatId}
+          onClick={() => selectChat(chat.id)}
         >
           <ListItemText primary={chat.header} />
-        </ListItem>
+          <CommentIcon />
+        </ListItemButton>
       ))}
     </List>
   )

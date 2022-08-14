@@ -4,12 +4,12 @@ import MessageForm from '../components/messageForm/MessageForm'
 import ChatsList from '../components/chatsList/ChatsList'
 import { TextField } from '@mui/material'
 import CustomLink from '../components/customLink/CustomLink'
+import { useParams } from 'react-router-dom'
 
 const botMessage = { author: 'Bot', body: '' }
 
 const Chat = () => {
-  const [currentUser, setCurrentUser] = useState('John')
-  const [messageList, setMessageList] = useState([])
+  const { chatId } = useParams()
   const [chatsList, setChatsList] = useState([
     {
       id: 1,
@@ -27,7 +27,19 @@ const Chat = () => {
       messages: [],
     },
   ])
+  const [currentUser, setCurrentUser] = useState('John')
+  const getCurrentChat = () => {
+    let id = parseInt(chatId)
+    if (id === NaN) {
+      return []
+    }
+    let chat = chatsList.find((item) => item.id === id)
+    return chat.messages
+  }
+  const [messageList, setMessageList] = useState(getCurrentChat())
+
   const [idCounter, setIdCounter] = useState(0)
+
   const formRef = useRef(null)
 
   const getNewId = useCallback(() => {
@@ -73,7 +85,7 @@ const Chat = () => {
           />
         </div>
 
-        <ChatsList chats={chatsList} />
+        <ChatsList chats={chatsList} chatId={chatId} />
       </div>
 
       <div className="chat-group">
