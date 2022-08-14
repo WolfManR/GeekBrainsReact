@@ -9,24 +9,18 @@ import { useParams } from 'react-router-dom'
 const botMessage = { author: 'Bot', body: '' }
 
 const Chat = () => {
+  const getNewId = useCallback(() => {
+    return Date.now()
+  }, [])
   const { chatId } = useParams()
   const [chatsList, setChatsList] = useState([
     {
-      id: 1,
+      id: getNewId(),
       header: 'some header',
       messages: [],
     },
-    {
-      id: 2,
-      header: 'some header2',
-      messages: [],
-    },
-    {
-      id: 3,
-      header: 'some header3',
-      messages: [],
-    },
   ])
+
   const [currentUser, setCurrentUser] = useState('John')
   const getCurrentChat = () => {
     let id = parseInt(chatId)
@@ -38,15 +32,7 @@ const Chat = () => {
   }
   const [messageList, setMessageList] = useState(getCurrentChat())
 
-  const [idCounter, setIdCounter] = useState(0)
-
   const formRef = useRef(null)
-
-  const getNewId = useCallback(() => {
-    const newId = idCounter + 1
-    setIdCounter(newId)
-    return newId
-  }, [idCounter])
 
   const addMessage = useCallback(
     (newMessage) => {
@@ -66,13 +52,23 @@ const Chat = () => {
     [addMessage],
   )
 
+  const removeChat = (id) => {
+    setChatsList(chatsList.filter((c) => c.id !== id))
+  }
+
+  const addChat = (chatName) => {
+    let id = getNewId()
+    setChatsList([...chatsList, { id: id, header: chatName, messages: [] }])
+    return id
+  }
+
   useEffect(() => {
     setTimeout(() => botSendMessage(messageList), 1500)
   }, [messageList, botSendMessage])
 
   return (
     <div className="chat">
-      <div className="side">
+      <div className="side" style={{ width: '300px' }}>
         <div className="logo">
           <CustomLink to={'/'}>Home</CustomLink>
         </div>
@@ -85,7 +81,12 @@ const Chat = () => {
           />
         </div>
 
-        <ChatsList chats={chatsList} chatId={chatId} />
+        <ChatsList
+          chats={chatsList}
+          chatId={chatId}
+          onRemoveChat={removeChat}
+          onAddChat={addChat}
+        />
       </div>
 
       <div className="chat-group">
