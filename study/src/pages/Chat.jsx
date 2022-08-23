@@ -5,37 +5,32 @@ import ChatsList from '../components/chatsList/ChatsList'
 import { TextField } from '@mui/material'
 import CustomLink from '../components/customLink/CustomLink'
 
-import { getNewId } from '../store/chatSlice'
-
-const botMessage = { author: 'Bot', body: '' }
+import { useSelector, useDispatch } from 'react-redux'
+import { selectMessages, addMessage } from '../store/chatSlice'
+import { selectUserName, signIn } from '../store/authSlice'
 
 const Chat = () => {
-  const [currentUser, setCurrentUser] = useState('John')
-  const [messageList, setMessageList] = useState([])
+  const userName = useSelector(selectUserName)
+  const messages = useSelector(selectMessages)
+  const dispatch = useDispatch()
 
   const formRef = useRef(null)
 
-  const addMessage = useCallback(
-    (newMessage) => {
-      setMessageList([...messageList, { ...newMessage, id: getNewId }])
-    },
-    [getNewId, messageList],
-  )
-
-  const botSendMessage = useCallback(
-    (messages) => {
-      if (messages.length === 0) return
-      const lastMessage = messages.at(-1)
-      if (lastMessage.author === botMessage.author) return
-      addMessage({ ...botMessage, body: `${lastMessage.author} write in chat` })
-      formRef.current.focus()
-    },
-    [addMessage],
-  )
+  const botSendMessage = useCallback((messages) => {
+    if (messages.length === 0) return
+    const lastMessage = messages.at(-1)
+    if (lastMessage.author === 'Bot') return
+    let message = {
+      author: 'Bot',
+      body: `${lastMessage.author} write in chat`,
+    }
+    dispatch(addMessage(message))
+    formRef.current.focus()
+  }, [])
 
   useEffect(() => {
-    setTimeout(() => botSendMessage(messageList), 1500)
-  }, [messageList, botSendMessage])
+    setTimeout(() => botSendMessage(messages), 1500)
+  }, [messages, botSendMessage])
 
   return (
     <div className="chat">
@@ -47,8 +42,8 @@ const Chat = () => {
           <TextField
             type="text"
             label="Current User"
-            value={currentUser}
-            onChange={(e) => setCurrentUser(e.target.value)}
+            value={userName}
+            onChange={(e) => dispatch(signIn(e.target.value))}
           />
         </div>
 
@@ -56,9 +51,9 @@ const Chat = () => {
       </div>
 
       <div className="chat-group">
-        <MessagesList messages={messageList} currentUser={currentUser} />
+        <MessagesList />
 
-        <MessageForm onMessageSend={addMessage} ref={formRef} />
+        <MessageForm ref={formRef} />
       </div>
     </div>
   )
