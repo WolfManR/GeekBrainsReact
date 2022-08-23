@@ -4,39 +4,20 @@ import MessageForm from '../components/messageForm/MessageForm'
 import ChatsList from '../components/chatsList/ChatsList'
 import { TextField } from '@mui/material'
 import CustomLink from '../components/customLink/CustomLink'
-import { useParams } from 'react-router-dom'
+
+import { getNewId } from '../store/chatSlice'
 
 const botMessage = { author: 'Bot', body: '' }
 
 const Chat = () => {
-  const getNewId = useCallback(() => {
-    return Date.now()
-  }, [])
-  const { chatId } = useParams()
-  const [chatsList, setChatsList] = useState([
-    {
-      id: getNewId(),
-      header: 'some header',
-      messages: [],
-    },
-  ])
-
   const [currentUser, setCurrentUser] = useState('John')
-  const getCurrentChat = () => {
-    let id = parseInt(chatId)
-    if (Number.isNaN(id)) {
-      return []
-    }
-    let chat = chatsList.find((item) => item.id === id)
-    return chat.messages
-  }
-  const [messageList, setMessageList] = useState(getCurrentChat())
+  const [messageList, setMessageList] = useState([])
 
   const formRef = useRef(null)
 
   const addMessage = useCallback(
     (newMessage) => {
-      setMessageList([...messageList, { ...newMessage, id: getNewId() }])
+      setMessageList([...messageList, { ...newMessage, id: getNewId }])
     },
     [getNewId, messageList],
   )
@@ -51,16 +32,6 @@ const Chat = () => {
     },
     [addMessage],
   )
-
-  const removeChat = (id) => {
-    setChatsList(chatsList.filter((c) => c.id !== id))
-  }
-
-  const addChat = (chatName) => {
-    let id = getNewId()
-    setChatsList([...chatsList, { id: id, header: chatName, messages: [] }])
-    return id
-  }
 
   useEffect(() => {
     setTimeout(() => botSendMessage(messageList), 1500)
@@ -81,12 +52,7 @@ const Chat = () => {
           />
         </div>
 
-        <ChatsList
-          chats={chatsList}
-          chatId={chatId}
-          onRemoveChat={removeChat}
-          onAddChat={addChat}
-        />
+        <ChatsList />
       </div>
 
       <div className="chat-group">
