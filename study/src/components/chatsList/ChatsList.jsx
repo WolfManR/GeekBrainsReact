@@ -15,7 +15,7 @@ import {
   selectChats,
   addChat,
   removeChat,
-  selectChat as storeSelectChat,
+  loadChat,
   selectChatId,
 } from '../../store/chatSlice'
 
@@ -28,7 +28,7 @@ const ChatsList = () => {
 
   const selectChat = (id) => {
     if (!id) return
-    dispatch(storeSelectChat(id))
+    dispatch(loadChat(id))
   }
 
   const openAddChatForm = () => {
@@ -65,7 +65,7 @@ const ChatsList = () => {
   return (
     <List sx={{ bgcolor: 'background.paper' }}>
       {chats.map((chat, index) => (
-        <ListItem key={chat.id} selected={`${chat.id}` === currentChatId}>
+        <ListItem key={chat.id} selected={chat.id === currentChatId}>
           <ListItemButton onClick={() => selectChat(chat.id)}>
             <ListItemText primary={chat.header} />
             <CommentIcon />

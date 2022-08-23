@@ -1,10 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const getNewId = () => Date.now();
-
-const createChat = (header) => {
+const createChat = (id, header) => {
   return {
-    id: getNewId(),
+    id: id,
     header: header,
     messages: [],
   };
@@ -13,19 +11,23 @@ const createChat = (header) => {
 export const chatSlice = createSlice({
   name: "chat",
   initialState: {
-    chatId: "",
-    chatsList: [createChat("Some header")],
+    chatId: -1,
+    chatsList: [],
     chatHeader: "",
     messages: [],
+    chatIdCounter: 0,
+    messageIdCounter: 0,
     userInfo: {
       nick: "John",
     },
   },
   reducers: {
     addChat: (state, action) => {
+      let id = state.chatIdCounter + 1;
       return {
         ...state,
-        chatsList: [...state.chatsList, createChat(action.payload)],
+        chatIdCounter: id,
+        chatsList: [...state.chatsList, createChat(id, action.payload)],
       };
     },
     removeChat: (state, action) => {
@@ -35,36 +37,28 @@ export const chatSlice = createSlice({
       };
     },
     loadChat: (state, action) => {
-      let id = parseInt(action.payload);
-      if (Number.isNaN(id)) return state;
-      let chat = state.chatsList.find((item) => item.id === id);
-      return {
-        ...state,
-        currentChat: chat,
-      };
-    },
-      addMessage: (state, action) => {
-          return {
-              ...state,
-              messages: [...state.messages, action.payload]
-        }
-    },
-    selectChat: (state, action) => {
+      let prevChat = state.chatsList.find((item) => item.id === state.chatId);
+      // TODO: update messages in previous chat
+      let nextChat = state.chatsList.find((item) => item.id === action.payload);
       return {
         ...state,
         chatId: action.payload,
+        chatHeader: nextChat.header,
+        messages: nextChat.messages,
+      };
+    },
+    addMessage: (state, action) => {
+      let id = state.messageIdCounter + 1;
+      return {
+        ...state,
+        messageIdCounter: id,
+        messages: [...state.messages, { ...action.payload, id: id }],
       };
     },
   },
 });
 
-export const {
-    addChat,
-    removeChat,
-    loadChat,
-    addMessage,
-    selectChat
-} = chatSlice.actions;
+export const { addChat, removeChat, loadChat, addMessage } = chatSlice.actions;
 
 export const selectChatId = (state) => state.chat.chatId;
 export const selectChats = (state) => state.chat.chatsList;
