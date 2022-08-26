@@ -1,8 +1,8 @@
-import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import authSlice from "./authSlice";
 import chatSlice from "./chatSlice";
 import counterReducer from "./counterSlice";
-import logger from "@reduxjs/logger";
+import { createLogger } from "redux-logger";
 
 const functionDelay = (store) => (next) => (action) => {
   const delay = action?.payload?.meta?.delay;
@@ -11,13 +11,16 @@ const functionDelay = (store) => (next) => (action) => {
   return () => clearTimeout(dispose);
 };
 
+const logger = createLogger({
+  duration: true
+});
+
 export default configureStore({
   reducer: {
     counter: counterReducer,
     chat: chatSlice,
     auth: authSlice,
   },
-  middleware: getDefaultMiddleware => getDefaultMiddleware()
-    .concat(functionDelay),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger).concat(functionDelay),
   devTools: true,
 });
