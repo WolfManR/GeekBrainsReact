@@ -1,7 +1,13 @@
 import React from 'react'
 import Message from '../message/Message.jsx'
+import { useSelector } from 'react-redux'
+import { selectMessages } from '../../store/chatSlice'
+import { selectUserName } from '../../store/authSlice'
 
-function MessagesList({ messages, currentUser }) {
+function MessagesList() {
+  const messages = useSelector(selectMessages)
+  const currentUser = useSelector(selectUserName)
+
   return (
     <div className="MessagesList">
       {messages.map((item) => {
