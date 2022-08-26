@@ -8,9 +8,9 @@ import storage from "redux-persist/lib/storage";
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
 
 const functionDelay = (store) => (next) => (action) => {
-  const delay = action?.payload?.meta?.delay;
+  const delay = action?.meta?.delay;
   if (!delay) return next(action);
-  const dispose = setTimeout(() => next(action), 200);
+  const dispose = setTimeout(() => next(action), delay);
   return () => clearTimeout(dispose);
 };
 
