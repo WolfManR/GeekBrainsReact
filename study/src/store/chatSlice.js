@@ -37,8 +37,6 @@ export const chatSlice = createSlice({
       };
     },
     loadChat: (state, action) => {
-      let prevChat = state.chatsList.find((item) => item.id === state.chatId);
-      // TODO: update messages in previous chat
       let nextChat = state.chatsList.find((item) => item.id === action.payload);
       return {
         ...state,
