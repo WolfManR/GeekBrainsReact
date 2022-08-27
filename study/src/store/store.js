@@ -6,6 +6,7 @@ import { createLogger } from "redux-logger";
 import { combineReducers } from "redux";
 import storage from "redux-persist/lib/storage";
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
+import galerySlice from "./galerySlice";
 
 const functionDelay = (store) => (next) => (action) => {
   const delay = action?.meta?.delay;
@@ -22,6 +23,7 @@ const reducers = combineReducers({
   counter: counterReducer,
   chat: chatSlice,
   auth: authSlice,
+  galery: galerySlice
 });
 
 const persistConfig = {
