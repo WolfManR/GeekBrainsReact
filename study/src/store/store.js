@@ -23,7 +23,7 @@ const reducers = combineReducers({
   counter: counterReducer,
   chat: chatSlice,
   auth: authSlice,
-  galery: galerySlice
+  galery: galerySlice,
 });
 
 const persistConfig = {
@@ -42,7 +42,7 @@ export const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     })
-      .concat(logger)
+      // .concat(logger)
       .concat(functionDelay),
   devTools: true,
 });

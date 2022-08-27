@@ -1,8 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-export const fetchAlbum = createAsyncThunk("galery/fetchAlbum", async (albumId) => {
-  const response = await fetch("http://jsonplaceholder.typicode.com/albums/1/photos");
-  return response.data;
+export const fetchAlbum = createAsyncThunk("galery/fetchAlbum", async (albumId, { getState }) => {
+  const response = await fetch(`http://jsonplaceholder.typicode.com/albums/${albumId}/photos`);
+  return response.json();
 });
 
 export const galerySlice = createSlice({
@@ -10,22 +10,20 @@ export const galerySlice = createSlice({
   initialState: {
     loading: false,
     album: [],
-    error: "",
+    error: null,
   },
   extraReducers: {
     [fetchAlbum.pending]: (state, action) => {
-      state.galery.loading = true;
-      state.galery.error = null;
+      state.loading = true;
+      state.error = null;
     },
     [fetchAlbum.fulfilled]: (state, action) => {
-      console.log(action.payload);
-      state.galery.loading = false;
-      state.galery.album = action.payload;
+      state.loading = false;
+      state.album = action.payload;
     },
     [fetchAlbum.rejected]: (state, action) => {
-      console.log(action);
-      state.galery.loading = false;
-      state.galery.error = action.error.message;
+      state.loading = false;
+      state.error = action.error;
     },
   },
 });
