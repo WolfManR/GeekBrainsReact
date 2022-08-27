@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useEffect, useCallback, useRef } from 'react'
 import MessagesList from '../components/messagesList/MessagesList'
 import MessageForm from '../components/messageForm/MessageForm'
 import ChatsList from '../components/chatsList/ChatsList'
@@ -26,7 +26,7 @@ const Chat = () => {
     }
     dispatch(addMessage(message))
     formRef.current.focus()
-  }, [])
+  }, [dispatch])
 
   useEffect(() => {
     setTimeout(() => botSendMessage(messages), 1500)

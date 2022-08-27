@@ -39,7 +39,7 @@ const ChatsList = () => {
     e.preventDefault()
     if (isAdd) {
       let chatName = e.target.form.chatName.value
-      dispatch(addChat(chatName))
+      dispatch({type:addChat.type, payload: chatName, meta: {delay:1500}})
     }
     setFormVisibility(false)
   }
