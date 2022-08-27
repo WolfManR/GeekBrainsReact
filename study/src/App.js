@@ -7,6 +7,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import Counter from "./pages/Counter";
+import Galery from "./pages/Galery";
 
 const theme = createTheme({
   spacing: [0, 4, 8, 16],
@@ -40,6 +41,7 @@ function App() {
           <Route index element={<Site />} />
           <Route path={"/profile"} element={<Profile />} />
           <Route path={"/counter"} element={<Counter />} />
+          <Route path={"/galery"} element={<Galery />} />
         </Route>
         <Route path={"/chat"} element={<Chat />} />
         <Route path={"*"} element={<NotFound />} />
