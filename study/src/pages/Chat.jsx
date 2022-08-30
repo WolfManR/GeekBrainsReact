@@ -16,17 +16,20 @@ const Chat = () => {
 
   const formRef = useRef(null)
 
-  const botSendMessage = useCallback((messages) => {
-    if (messages.length === 0) return
-    const lastMessage = messages.at(-1)
-    if (lastMessage.author === 'Bot') return
-    let message = {
-      author: 'Bot',
-      body: `${lastMessage.author} write in chat`,
-    }
-    dispatch(addMessage(message))
-    formRef.current.focus()
-  }, [dispatch])
+  const botSendMessage = useCallback(
+    (messages) => {
+      if (messages.length === 0) return
+      const lastMessage = messages.at(-1)
+      if (lastMessage.author === 'Bot') return
+      let message = {
+        author: 'Bot',
+        body: `${lastMessage.author} write in chat`,
+      }
+      dispatch(addMessage(message))
+      formRef.current.focus()
+    },
+    [dispatch],
+  )
 
   useEffect(() => {
     setTimeout(() => botSendMessage(messages), 1500)
@@ -39,12 +42,7 @@ const Chat = () => {
           <CustomLink to={'/'}>Home</CustomLink>
         </div>
         <div className="chat-user">
-          <TextField
-            type="text"
-            label="Current User"
-            value={userName}
-            onChange={(e) => dispatch(signIn(e.target.value))}
-          />
+          <label label="Current User" value={userName} />
         </div>
 
         <ChatsList />
