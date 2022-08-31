@@ -1,5 +1,6 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
+import AuthHeader from '../components/authHeader/AuthHeader'
 import CustomLink from '../components/customLink/CustomLink'
 
 const SiteLayout = () => {
@@ -13,10 +14,7 @@ const SiteLayout = () => {
           <CustomLink to={'/counter'}>Counter</CustomLink>
           <CustomLink to={'/galery'}>Galery</CustomLink>
         </div>
-        <div>
-          <CustomLink to={'/login'}>Login</CustomLink>
-          <CustomLink to={'/register'}>Register</CustomLink>
-        </div>
+        <AuthHeader/>
       </header>
 
       <main>

@@ -9,7 +9,7 @@ export const authSlice = createSlice({
   name: "auth",
   initialState: {
     accounts: [],
-    nick: "John",
+    nick: "",
   },
   reducers: {
     signIn: (state, action) => {
@@ -27,10 +27,13 @@ export const authSlice = createSlice({
       state.accounts.push(account);
       state.nick = account.nick;
     },
+    signOut: (state) => {
+      state.nick = "";
+    },
   },
 });
 
-export const { signIn, signUp } = authSlice.actions;
+export const { signIn, signUp, signOut } = authSlice.actions;
 
 export const selectUserName = (state) => state.auth.nick;
 
