@@ -2,7 +2,7 @@ import { Button } from '@mui/material'
 import React from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { selectUserName, signOut } from '../../store/authSlice'
+import { logout, selectUserName } from '../../store/authSlice'
 import CustomLink from '../customLink/CustomLink'
 
 const AuthHeader = () => {
@@ -10,7 +10,7 @@ const AuthHeader = () => {
   const dispatch = useDispatch()
 
   const handleLogout = () => {
-    dispatch(signOut())
+    dispatch(logout())
   }
 
   if (user) {

@@ -1,13 +1,13 @@
 import { Button, Stack, TextField } from '@mui/material'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { signUp } from '../../store/authSlice'
+import { register } from '../../store/authSlice'
 
 const SignUp = () => {
   const dispatch = useDispatch()
   const [form, setForm] = useState({ login: '', password: '' })
   const handleSignUp = (e) => {
-    dispatch(signUp(form))
+    dispatch(register(form))
   }
 
   return (
@@ -24,7 +24,7 @@ const SignUp = () => {
         value={form.password}
         onChange={(e) => setForm({ ...form, password: e.target.value })}
       />
-      <Button onClick={handleSignUp}>Sign Un</Button>
+      <Button onClick={handleSignUp}>Sign Up</Button>
     </Stack>
   )
 }
