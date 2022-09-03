@@ -77,6 +77,14 @@ const homeworks = [
       'Создать action creator для loading и error.',
     ],
   },
+  {
+    number: 9,
+    tasks: [
+      'Создать проект в консоли firebase. Установить и настроить в приложении firebase SDK.',
+      'Добавить аутентификацию через firebase (email/password).',
+      'Добавить возможность выхода после авторизации, при нажатии на кнопку "Выйти".',
+    ],
+  },
 ]
 
 const Site = () => {
