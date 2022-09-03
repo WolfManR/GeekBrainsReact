@@ -1,15 +1,28 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CustomLink from '../components/customLink/CustomLink'
-const contacts = [
-  { id: 1, name: 'John', year: 2000 },
-  { id: 2, name: 'Lena', year: 2001 },
-]
+import { db } from '../firebase/config'
+
 const Contacts = () => {
   const [name, setName] = useState('')
+  const [contacts, setContacts] = useState({})
   const deleteContact = (id) => {
-    console.log(id)
+    db.child(`contacts/${id}`).remove()
   }
-  const addContact = () => {}
+  const addContact = () => {
+    if (name.length < 2) return
+    db.child('contacts').push({ name: name })
+  }
+
+  useEffect(() => {
+    db.child('contacts').on('value', (snap) => {
+      if (snap.val() !== null) setContacts({ ...snap.val() })
+      else setContacts({})
+    })
+
+    return () => {
+      setContacts({})
+    }
+  }, [])
 
   return (
     <div>
@@ -21,26 +34,24 @@ const Contacts = () => {
       <table>
         <thead>
           <tr>
-            <td>id</td>
             <td>name</td>
             <td>year</td>
             <td></td>
           </tr>
         </thead>
         <tbody>
-          {contacts.map((contact) => (
-            <tr key={contact.id}>
-              <td>{contact.id}</td>
-              <td>{contact.name}</td>
-              <td>{contact.year}</td>
-              <td>
-                <CustomLink to={`/contact/${contact.id}`}>details</CustomLink>
-                <button onClick={() => deleteContact(contact.id)}>
-                  delete
-                </button>
-              </td>
-            </tr>
-          ))}
+          {Object.keys(contacts).map((id) => {
+            return (
+              <tr key={id}>
+                <td>{contacts[id].name}</td>
+                <td>{contacts[id].year}</td>
+                <td>
+                  <CustomLink to={`/contact/${id}`}>details</CustomLink>
+                  <button onClick={() => deleteContact(id)}>delete</button>
+                </td>
+              </tr>
+            )
+          })}
         </tbody>
       </table>
     </div>

@@ -1,21 +1,37 @@
-import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useEffect, useState, setState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import CustomLink from '../components/customLink/CustomLink'
-
-const contact = { id: 1, name: 'John', email: 'john@bk.ru' }
+import { db } from '../firebase/config'
 
 const Contact = () => {
   const { id } = useParams()
   const [isEditForm, setIsEditForm] = useState(false)
+  const [contact, setContact] = useState({})
+  const navigate = useNavigate()
+  useEffect(() => {
+    db.child(`contacts/${id}`)
+      .once('value')
+      .then((snap) => {
+        if (snap.val() === null) {
+          setContact({})
+          return
+        }
 
-  const asEdit = () => {
-    setIsEditForm(true)
-  }
+        setContact({ ...snap.val() })
+      })
+    return () => {
+      setContact({})
+    }
+  }, [])
 
   const Save = () => {
+    db.child(`contacts/${id}`).update(contact)
     setIsEditForm(false)
   }
-  const deleteContact = (id) => {}
+  const deleteContact = (id) => {
+    db.child(`contacts/${id}`).remove()
+    navigate('/contacts')
+  }
 
   const renderDetailsForm = () => {
     return (
@@ -26,9 +42,12 @@ const Contact = () => {
           <br />
           <label>email </label>
           <label>{contact.email}</label>
+          <br />
+          <label>year </label>
+          <label>{contact.year}</label>
         </div>
         <div>
-          <button onClick={asEdit}>Edit</button>
+          <button onClick={() => setIsEditForm(true)}>Edit</button>
           <button onClick={() => deleteContact(id)}>Delete</button>
         </div>
       </div>
@@ -38,10 +57,24 @@ const Contact = () => {
     return (
       <div>
         <label>name </label>
-        <input value={contact.name} />
+        <input
+          value={contact.name}
+          onChange={(e) => setContact({ ...contact, ['name']: e.target.value })}
+        />
         <br />
         <label>email </label>
-        <input value={contact.email} />
+        <input
+          value={contact.email}
+          onChange={(e) =>
+            setContact({ ...contact, ['email']: e.target.value })
+          }
+        />
+        <br />
+        <label>year </label>
+        <input
+          value={contact.year}
+          onChange={(e) => setContact({ ...contact, ['year']: e.target.value })}
+        />
         <br />
         <button onClick={Save}>Save</button>
       </div>
