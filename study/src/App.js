@@ -11,6 +11,8 @@ import Galery from "./pages/Galery";
 import SignIn from "./pages/auth/SignIn";
 import SignUp from "./pages/auth/SignUp";
 import AuthLayout from "./Layouts/AuthLayout";
+import Contacts from "./pages/Contacts";
+import Contact from "./pages/Contact";
 
 const theme = createTheme({
   spacing: [0, 4, 8, 16],
@@ -48,6 +50,8 @@ function App() {
             <Route path={"/galery"} element={<Galery />} />
             <Route path={"/login"} element={<SignIn />} />
             <Route path={"/register"} element={<SignUp />} />
+            <Route path={"/contacts"} element={<Contacts />} />
+            <Route path={"/contact/:id"} element={<Contact />} />
           </Route>
           <Route path={"/chat"} element={<Chat />} />
         </Route>

@@ -13,6 +13,7 @@ const SiteLayout = () => {
           <CustomLink to={'/profile'}>Profile</CustomLink>
           <CustomLink to={'/counter'}>Counter</CustomLink>
           <CustomLink to={'/galery'}>Galery</CustomLink>
+          <CustomLink to={'/Contacts'}>Contacts</CustomLink>
         </div>
         <AuthHeader/>
       </header>
