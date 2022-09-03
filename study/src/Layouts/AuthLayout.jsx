@@ -9,7 +9,7 @@ const AuthLayout = () => {
   const navigate = useNavigate()
   useEffect(() => {
     // TODO: there may be situation handling with route callback variable, to navigate to page from which login or register was navigated
-    navigate('/')
+    // navigate('/') // broken
   }, [user, navigate])
 
   return (
